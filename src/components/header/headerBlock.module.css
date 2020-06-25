@@ -1,0 +1,20 @@
+.header {
+    display: flex;
+    align-items: center;
+
+    padding: 0 140px 0 40px;
+
+    background: linear-gradient(to top, rgba(26,40,120,0.70), rgba(10,143,196,0.70));
+}
+
+.header__title {
+    margin: 0 auto;
+
+    color: #fff;
+    font-weight: 400;
+    font-size: 40px;
+}
+
+.header__logo {
+    width: 100px;
+}

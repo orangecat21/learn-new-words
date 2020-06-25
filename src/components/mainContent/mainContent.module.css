@@ -30,7 +30,7 @@
 .cover .wrap {
     position: relative;
     z-index: 1;
-    padding: 100px 16px;
+    padding: 0 16px;
     max-width: 1024px;
 }
 
@@ -38,6 +38,7 @@
     font-size: 68px;
     color: white;
     padding: 24px 0;
+    font-weight: 400;
 }
 
 .cover .descr {
@@ -45,4 +46,8 @@
     padding: 15px 0 30px 0;
     font-size: 20px;
     line-height: 1.55;
+}
+
+svg g {
+    fill: purple;
 }

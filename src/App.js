@@ -1,17 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import MainContent from './components/mainContent/mainContent.js';
+import Header from './components/header/headerBlock';
+import Footer from './components/footer/footerBlock';
+import './index.css';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Hello world, React.JS!
-        </p>
-      </header>
-    </div>
+    <>
+      <Header
+        title="Первое веб-приложение"
+      />
+
+      <MainContent 
+        title="Учите слова онлайн"
+        descr="Воспользуйтесь карточками для запоминания и пополнения активныйх словарных запасов"
+      />
+
+      <Footer
+        author="Kirill Borovskikh"
+        startOfDev="2020"
+      />
+    </>
   );
 }
 
