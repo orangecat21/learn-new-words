@@ -1,5 +1,48 @@
-.header {
-    color: darkslateblue;
-    font-size: 50px;
+.cover {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
     text-align: center;
+    
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-color: #000;
+    background-image: url('./background.jpg');
+}
+
+.cover::after {
+    content: '';
+    display: block;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-image: linear-gradient(to top, rgba(26,40,120,0.70), rgba(10,143,196,0.70));
+}
+
+.cover .wrap {
+    position: relative;
+    z-index: 1;
+    padding: 100px 16px;
+    max-width: 1024px;
+}
+
+.cover .header {
+    font-size: 68px;
+    color: white;
+    padding: 24px 0;
+}
+
+.cover .descr {
+    color: white;
+    padding: 15px 0 30px 0;
+    font-size: 20px;
+    line-height: 1.55;
 }
