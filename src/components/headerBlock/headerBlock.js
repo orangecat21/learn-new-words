@@ -3,13 +3,13 @@ import logo from './logo.png';
 import className from './headerBlock.module.css';
 
 
-const headerBlock = ({ title, customLogo }) => {
+const HeaderBlock = ({ customLogo, children }) => {
     return (
         <header className={className.header}>
             <img className={className.header__logo} src={customLogo || logo} alt='Logo'></img>
-            {title && <h1 className={className.header__title}>{title}</h1>}
+            { children }
         </header>
     );
 }
 
-export default headerBlock;
+export default HeaderBlock;

@@ -2,19 +2,13 @@
     display: flex;
     align-items: center;
 
-    padding: 0 140px 0 40px;
+    padding: 5px 60px 5px 20px;
 
     background: linear-gradient(to top, rgba(26,40,120,0.70), rgba(10,143,196,0.70));
-}
 
-.header__title {
-    margin: 0 auto;
-
-    color: #fff;
-    font-weight: 400;
-    font-size: 40px;
+    text-align: center;
 }
 
 .header__logo {
-    width: 100px;
+    width: 40px;
 }
