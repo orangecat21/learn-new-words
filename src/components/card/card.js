@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { CheckSquareOutlined } from '@ant-design/icons';
+import { CheckSquareOutlined, DeleteOutlined } from '@ant-design/icons';
 import className from './card.module.css';
 
 export default class Card extends React.Component {
@@ -28,6 +28,10 @@ export default class Card extends React.Component {
         })
     }
 
+    handlerDelete = () => {
+        this.props.onDeleted(this.props.id);
+    }
+
     render() {
         const { eng, rus } = this.props;
         return (
@@ -48,9 +52,13 @@ export default class Card extends React.Component {
                     </div>
                     <CheckSquareOutlined
                         className={
-                            cn(className.card__check, {[className.card__check_green]: this.state.isRemembered})
+                            cn(className.card__icon, {[className.card__icon_green]: this.state.isRemembered})
                         }
                         onClick={this.handlerCheckClick}
+                    />
+                    <DeleteOutlined
+                        className={className.card__icon}
+                        onClick={this.handlerDelete}            
                     />
                 </div>
                 );

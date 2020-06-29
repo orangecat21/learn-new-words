@@ -57,16 +57,16 @@
   transform: rotateX(-180deg);
 }
 
-.card__check {
+.card__icon {
   font-size: 25px;
   transition: color .3s;
 }
 
-.card__check:hover {
+.card__icon:hover {
   color: #1BB95E;
 }
 
-.card__check_green {
+.card__icon_green {
   color: #1BB95E;
 }
 
