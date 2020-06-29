@@ -1,36 +1,57 @@
 import React from 'react';
 import cn from 'classnames';
+import { CheckSquareOutlined } from '@ant-design/icons';
 import className from './card.module.css';
 
 export default class Card extends React.Component {
 
     state = {
         done: false,
+        isRemembered: false
     }
 
     handlerCardClick = () => {
-        this.setState({
-            done: !this.state.done,
+        this.setState(({ done }) => {
+            return {
+                done: !done,
+            }
+        });
+    }
+
+    handlerCheckClick = () => {
+        this.setState(({ done, isRemembered }) => {
+            this.handlerCardClick = null;
+            return {
+                isRemembered: true,
+                done: true,
+            }
         })
     }
 
     render() {
-        console.log([className.done]);
         const { eng, rus } = this.props;
         return (
-                <div 
-                    className={className.card}
-                    onClick={this.handlerCardClick}
-                >
-                    <div className={cn(className.cardInner, {[className.done]: this.state.done})}>
-                        <div className={className.cardFront}>
-                            { eng }
-                        </div>
-                        <div className={className.cardBack}>
-                            { rus }
+                <div className={className.card__wrap}>
+                    <div 
+                        className={className.card}
+                        onClick={this.handlerCardClick}
+                    >
+
+                        <div className={cn(className.cardInner, {[className.done]: this.state.done, [className.remembered]: this.state.isRemembered})}>
+                            <div className={className.cardFront}>
+                                { eng }
+                            </div>
+                            <div className={className.cardBack}>
+                                { rus }
+                            </div>
                         </div>
                     </div>
-                    
+                    <CheckSquareOutlined
+                        className={
+                            cn(className.card__check, {[className.card__check_green]: this.state.isRemembered})
+                        }
+                        onClick={this.handlerCheckClick}
+                    />
                 </div>
                 );
     }
