@@ -1,13 +1,24 @@
+.card__wrap{
+  display: flex;
+  align-items: center;
+}
+
 .card {
   font-size: 18px;
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
+  margin-top: 6px;
+  margin-right: 3px;
+  margin-left: 3px;
   cursor: pointer;
   perspective: 300px;
   height: 33px;
   width: 170px;
   flex-grow: 0;
   flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
 }
 
 .done {
@@ -44,4 +55,21 @@
   background-color: #1BB95E;
   color: white;
   transform: rotateX(-180deg);
+}
+
+.card__icon {
+  font-size: 25px;
+  transition: color .3s;
+}
+
+.card__icon:hover {
+  color: #1BB95E;
+}
+
+.card__icon_green {
+  color: #1BB95E;
+}
+
+.remembered .cardFront, .remembered .cardBack {
+  text-decoration: line-through;
 }
