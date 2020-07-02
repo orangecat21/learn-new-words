@@ -44,6 +44,9 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cardFront {

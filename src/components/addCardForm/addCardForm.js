@@ -1,60 +1,53 @@
 import React from 'react';
+import { Input } from 'antd';
+import getTranslateWord from '../../services/dictionary';
 import className from './addCardForm.module.css';
+
+const { Search } = Input;
 
 export default class addCardForm extends React.Component {
 
     state = {
-        rus: '',
-        eng: ''
+        eng: '',
+        isBusy: false,
     }
 
-    handlerRusChange = (e) => {
-        this.setState({
-            rus:e.target.value
-        })
-    }
-
-    handlerEngChange = (e) => {
+    handlerChange = (e) => {
         this.setState({
             eng:e.target.value
         })
     }
 
-    handlerSubmit = (e) => {
-        e.preventDefault();
-        const {rus, eng} = this.state;
-        this.props.onFormSubmit(rus, eng);
+    getWord = async () => {
+        const { eng } = this.state;
+        const translate = await getTranslateWord(eng)
+        this.props.onFormSubmit( translate, eng);
         this.setState({
-            rus:'',
-            eng:''
+            eng:'',
+            isBusy: false,
         })
     }
 
-    render () {
-        const {rus, eng} = this.state;
-        return (
-            <form className={className.form} onSubmit={this.handlerSubmit}>
-                <input
-                    className={className.form__input}
-                    type="text"
-                    value={rus}
-                    onChange={this.handlerRusChange}
-                    placeholder='Слово на русском'
-                    required
-                />
-                <input
-                    className={className.form__input}
-                    type="text"
-                    value={eng}
-                    onChange={this.handlerEngChange}
-                    placeholder='Английский перевод'
-                    required
-                />
+    handlerSubmit = async () => {
+        this.state.eng !== '' && this.setState({
+            isBusy: true,
+        }, this.getWord);
+    }
 
-                <button className={className.form__button}>
-                    Добавить новое слово
-                </button>
-            </form>
+    render () {
+        const { eng, isBusy } = this.state;
+        return (
+            <div className={className.form}>
+                <Search
+                    placeholder="Введите английское слово"
+                    enterButton="Добавить новую карточку"
+                    size="large"
+                    onSearch={this.handlerSubmit}
+                    onChange={this.handlerChange}
+                    value={eng}
+                    loading={isBusy}
+                />
+            </div>
         );
     }
 }
