@@ -29,7 +29,6 @@ export default class App extends React.Component {
   }
 
   handlerDeleteCard = (id) => {
-    console.log(id);
     database.ref(`/cards/${id}`).remove();
   }
 
