@@ -1,4 +1,4 @@
-const API_KEY = process.env.REACT_APP_API_KEY;
+const API_KEY = process.env.REACT_APP_API_KEY_TRANSLATE;
 
 const getTranslateWord = async (text, lang = 'en-ru') => {
 

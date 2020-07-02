@@ -8,45 +8,41 @@ import Header2 from './components/header2/header2';
 import Paragraph from './components/paragraph/paragraph';
 import Footer from './components/footer/footerBlock';
 import Copyright from './components/copyright/copyright';
-import {wordsList} from './components/wordsList';
+import * as firebase from 'firebase';
+import firebaseConfig from './services/firebaseConfig';
 import './index.css';
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
 export default class App extends React.Component {
   state = {
-    wordArr: wordsList,
+    wordArr: [],
+  }
+
+  componentDidMount() {
+    database.ref('/cards').on('value', res => {
+      this.setState({
+        wordArr: Object.values(res.val() || {}),
+      });
+    });
   }
 
   handlerDeleteCard = (id) => {
-    this.setState(({ wordArr }) => {
-      const idDelete = wordArr.findIndex(item => item.id === id);
-      const newWordArr = [
-        ...wordArr.slice(0, idDelete),
-        ...wordArr.slice(idDelete+1)
-      ]
-      return {
-        wordArr: newWordArr,
-      }
-    });
+    console.log(id);
+    database.ref(`/cards/${id}`).remove();
   }
 
   handlerAddCard = (rus, eng) => {
     if (typeof rus === "undefined") {
       return false;
     } else {
-      this.setState(({wordArr}) => {
-        const lastId = wordArr[wordArr.length-1].id;
-        const newWordArr = [
-          ...wordArr,
-          {
-            rus: rus.toLowerCase(),
-            eng: eng.toLowerCase(),
-            id: lastId+1
-          }
-        ];
-        return {
-          wordArr: newWordArr,
-        }
-      });
+      const newId = +new Date();
+      database.ref(`/cards/${newId}`).set({
+          rus: rus.toLowerCase(),
+          eng: eng.toLowerCase(),
+          id: newId,
+        });
     }
   }
 
