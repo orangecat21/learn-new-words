@@ -30,20 +30,24 @@ export default class App extends React.Component {
   }
 
   handlerAddCard = (rus, eng) => {
-    this.setState(({wordArr}) => {
-      const lastId = wordArr[wordArr.length-1].id;
-      const newWordArr = [
-        ...wordArr,
-        {
-          rus: rus.toLowerCase(),
-          eng: eng.toLowerCase(),
-          id: lastId+1
+    if (typeof rus === "undefined") {
+      return false;
+    } else {
+      this.setState(({wordArr}) => {
+        const lastId = wordArr[wordArr.length-1].id;
+        const newWordArr = [
+          ...wordArr,
+          {
+            rus: rus.toLowerCase(),
+            eng: eng.toLowerCase(),
+            id: lastId+1
+          }
+        ];
+        return {
+          wordArr: newWordArr,
         }
-      ];
-      return {
-        wordArr: newWordArr,
-      }
-    })
+      });
+    }
   }
 
   render() {
