@@ -1,0 +1,15 @@
+.sign-out{
+    font-size: 30px;
+
+    cursor: pointer;
+}
+
+.sign-out span{
+    color: #00ffff;
+
+    transition: color .2s;
+}
+
+.sign-out:hover span {
+    color: #1a2878b3;
+}
