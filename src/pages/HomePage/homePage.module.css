@@ -11,5 +11,17 @@
 }
 
 .sign-out:hover span {
-    color: #1a2878b3;
+    color: #ffffff;
+}
+
+.loader {
+    font-size: 40px;
+    
+    color: #ffffff;
+}
+
+@media(max-width: 800px) {
+    .sign-out {
+        font-size: 25px;
+    }
 }

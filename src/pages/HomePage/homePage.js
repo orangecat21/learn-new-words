@@ -1,7 +1,6 @@
 import React from 'react';
 
-import database from '../../services/firebase';
-import { fire } from '../../services/firebase';
+import FirebaseContext from '../../context/firebaseContext';
 
 import HeaderBlock from '../../components/headerBlock/headerBlock';
 import Header1 from '../../components/header1/header1';
@@ -13,7 +12,7 @@ import Paragraph from '../../components/paragraph/paragraph';
 import Footer from '../../components/footer/footerBlock';
 import Copyright from '../../components/copyright/copyright';
 
-import { LogoutOutlined } from '@ant-design/icons';
+import { LogoutOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import className from './homePage.module.css';
 
@@ -22,32 +21,36 @@ import className from './homePage.module.css';
 export default class HomePage extends React.Component {
     state = {
         wordArr: [],
+        isLoading: true
     }
 
-    userCardsUrl = `/cards/${this.props.user.uid}/`;
-
     componentDidMount() {
-        database.ref(this.userCardsUrl).on('value', res => {
+        const { database, userCardsUrl } = this.context;
+        database.ref(userCardsUrl).on('value', res => {
             this.setState({
                 wordArr: Object.values(res.val() || {}),
+                isLoading: false,
             });
         });
     }
 
     handlerSignOut = () => {
-        fire.auth().signOut().catch(err => console.error(err));
+        const { signOut } = this.context;
+        signOut().catch(err => console.error(err));
     }
 
     handlerDeleteCard = (id) => {
-        database.ref(this.userCardsUrl+id).remove();
+        const { database, userCardsUrl } = this.context;
+        database.ref(userCardsUrl+id).remove();
     }
 
     handlerAddCard = (rus, eng) => {
         if (typeof rus === "undefined") {
             return false;
         } else {
+            const { database, userCardsUrl } = this.context;
             const newId = +new Date();
-            database.ref(this.userCardsUrl+newId).set({
+            database.ref(userCardsUrl+newId).set({
                 rus: rus.toLowerCase(),
                 eng: eng.toLowerCase(),
                 id: newId,
@@ -56,7 +59,7 @@ export default class HomePage extends React.Component {
     }
 
     render() {
-        const { wordArr } = this.state;
+        const { wordArr, isLoading } = this.state;
 
         return (
             <>
@@ -72,9 +75,14 @@ export default class HomePage extends React.Component {
 
                 <MainContent>
                     <Header2 title="Учите слова онлайн" />
-                    <Paragraph text="Воспользуйтесь карточками для запоминания и пополнения словарного запаса. Кликните на неизвестное слово и узнаете перевод!" />
+                    <Paragraph text="Воспользуйтесь карточками для запоминания и пополнения словарного запаса. Кликните&nbsp;на&nbsp;неизвестное слово и узнаете перевод!" />
+                    { isLoading && <LoadingOutlined className={className.loader}/>}
                     {
-                        wordArr.map(({ eng, rus, id }) => (
+                     (!isLoading && wordArr.length === 0) ?
+                     
+                     <Paragraph text="Кажется у вас пока нет ни одной карточки!"/> : 
+                     
+                     wordArr.map(({ eng, rus, id }) => (
                             <Card
                                 onDeleted={this.handlerDeleteCard}
                                 key={id}
@@ -96,3 +104,5 @@ export default class HomePage extends React.Component {
         );
     }
 }
+
+HomePage.contextType = FirebaseContext;

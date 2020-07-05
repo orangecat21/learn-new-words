@@ -40,7 +40,7 @@ export default class addCardForm extends React.Component {
             <div className={className.form}>
                 <Search
                     placeholder="Введите английское слово"
-                    enterButton="Добавить новую карточку"
+                    enterButton="Добавить карточку"
                     size="large"
                     onSearch={this.handlerSubmit}
                     onChange={this.handlerChange}

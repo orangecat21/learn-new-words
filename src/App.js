@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { fire } from './services/firebase';
+import FirebaseContext from './context/firebaseContext';
 
 import HomePage from './pages/HomePage/homePage';
 import LoginPage from './pages/LoginPage/loginPage';
+import RegisterPage from './pages/RegisterPage/registerPage';
 import className from './App.module.css';
 
 import { LoadingOutlined } from '@ant-design/icons';
@@ -13,11 +14,14 @@ export default class App extends React.Component {
 
   state = {
     user: null,
+    alredyRegister: true,
   }
 
   componentDidMount() {
-    fire.auth().onAuthStateChanged(user => {
+    const { auth, setUserCardsUrl } = this.context;
+    auth.onAuthStateChanged(user => {
       if (user) {
+        setUserCardsUrl(user.uid);
         this.setState({
           user,
         });
@@ -29,9 +33,17 @@ export default class App extends React.Component {
     })
   }
   
+  changeRegisterStatus = () => {
+    this.setState(({ alredyRegister }) => {
+      return {
+        alredyRegister: !alredyRegister,
+      }
+    })
+  }
+
   render() {
 
-    const { user } = this.state;
+    const { user, alredyRegister } = this.state;
     
     if (user === null) {
       return (
@@ -42,9 +54,10 @@ export default class App extends React.Component {
     }
     return (
       <>
-        {user ? <HomePage user={user}/> : <LoginPage/>}
+        {user ? <HomePage/> : alredyRegister ? <LoginPage switchPage={this.changeRegisterStatus}/> : <RegisterPage switchPage={this.changeRegisterStatus}/>}
       </>
     );
   }
-
 }
+
+App.contextType = FirebaseContext;

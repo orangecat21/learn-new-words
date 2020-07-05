@@ -38,3 +38,9 @@
     flex-wrap: wrap;
     justify-content: space-around;
 }
+
+@media(max-width: 800px) {
+    .cover {
+        padding-top: 58px;
+    }
+}

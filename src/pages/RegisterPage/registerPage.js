@@ -3,48 +3,48 @@ import React from 'react';
 
 import { Layout, Form, Input, Button, Space  } from 'antd';
 
-import className from './loginPage.module.css';
+import className from './registerPage.module.css';
 import FirebaseContext from '../../context/firebaseContext';
 
 const { Content } = Layout;
 
 
-export default class LoginPage extends React.Component {
+export default class RegisterPage extends React.Component {
 
     state={
-        loginBusy: false,
+        registerBusy: false,
         errorMessage: null,
     }
 
     onFinish = ({email, password}) => {
-        const { signWithEmail } = this.context;
+        const { createUser } = this.context;
+        const { switchPage } =this.props;
 
         this.setState({
-            loginBusy: true,
+            registerBusy: true,
         });
 
-        signWithEmail(email, password)
+        createUser(email, password)
+            .then(()=>{
+                switchPage();
+            })
             .catch(err => {
                 let msg = '';
                 switch (err.code) {
-                    case 'auth/user-not-found':
-                        msg = 'Пользователь с таким Email не найден!';
-                        break;
-
-                    case 'auth/wrong-password':
-                        msg = 'Введен неверный пароль!';
-                        break;
-
-                    case 'auth/too-many-requests':
-                        msg = 'Слишком много попыток! Попробуйте позже!';
-                        break;
-                    
-                    case 'auth/user-disabled':
-                        msg = 'Ваша учетная запись была отключена! Обратитесь за помощью в службу поддержки.';
+                    case 'auth/email-already-in-use':
+                        msg = 'Пользователь с таким Email уже зарегестрирован!';
                         break;
 
                     case 'auth/invalid-email':
                         msg = 'Введен неверный email!';
+                        break;
+
+                    case 'auth/weak-password':
+                        msg = 'Слишком слабый пароль!';
+                        break;
+                    
+                    case 'auth/too-many-requests':
+                        msg = 'Слишком много попыток! Попробуйте позже!';
                         break;
 
                     default:
@@ -52,7 +52,7 @@ export default class LoginPage extends React.Component {
                 }
                 console.error(err.code, ': ', err.message);
                 this.setState({
-                    loginBusy: false,
+                    registerBusy: false,
                     errorMessage: msg,
                 });
             });
@@ -64,9 +64,9 @@ export default class LoginPage extends React.Component {
 
     renderForm = () => {
 
-        const { loginBusy } = this.state;
-
         const { switchPage } = this.props;
+
+        const { registerBusy } = this.state;
 
         const layout = {
             labelCol: {
@@ -86,7 +86,7 @@ export default class LoginPage extends React.Component {
         return (
             <Form
                 {...layout}
-                name="login"
+                name="register"
                 initialValues={{
                     remember: true,
                 }}
@@ -121,12 +121,12 @@ export default class LoginPage extends React.Component {
 
                 <Form.Item {...tailLayout}>
                     <Space size={13}>
-                        <Button type="primary" htmlType="submit" loading={loginBusy}>
-                            Войти
+                        <Button type="primary" htmlType="submit" loading={registerBusy}>
+                            Зарегистрироваться
                         </Button>
 
                         <Button type="link" onClick={switchPage}>
-                            Зарегистрироваться
+                            Войти
                         </Button>
                     </Space>
                 </Form.Item>
@@ -156,4 +156,4 @@ export default class LoginPage extends React.Component {
 
 }
 
-LoginPage.contextType = FirebaseContext;
+RegisterPage.contextType = FirebaseContext;
