@@ -1,0 +1,27 @@
+.sign-out{
+    font-size: 30px;
+
+    cursor: pointer;
+}
+
+.sign-out span{
+    color: #00ffff;
+
+    transition: color .2s;
+}
+
+.sign-out:hover span {
+    color: #ffffff;
+}
+
+.loader {
+    font-size: 40px;
+    
+    color: #ffffff;
+}
+
+@media(max-width: 800px) {
+    .sign-out {
+        font-size: 25px;
+    }
+}

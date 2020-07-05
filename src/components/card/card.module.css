@@ -76,3 +76,9 @@
 .remembered .cardFront, .remembered .cardBack {
   text-decoration: line-through;
 }
+
+@media(max-width: 800px) {
+  .card__icon:hover {
+    color: initial;
+  }
+}

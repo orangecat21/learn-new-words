@@ -1,0 +1,23 @@
+.root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 100vh;
+}
+
+.form_wrap {
+    padding: 24px 24px 0 24px;
+
+    max-width: 340px;
+
+    background: #fff;
+    border-radius: 5px;
+
+    box-shadow: 10px 10px 25px 3px #0000006b;
+}
+
+.error {
+    color: #e63838;
+    text-align: center;
+}

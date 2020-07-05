@@ -14,6 +14,8 @@
     background-attachment: fixed;
     background-color: #000;
     background-image: url('./background.jpg');
+
+    padding-top: 75px;
 }
 
 .cover::after {
@@ -35,4 +37,10 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+@media(max-width: 800px) {
+    .cover {
+        padding-top: 58px;
+    }
 }
