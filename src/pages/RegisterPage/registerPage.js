@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 
 import { Layout, Form, Input, Button, Space  } from 'antd';
 
@@ -18,16 +18,12 @@ export default class RegisterPage extends React.Component {
 
     onFinish = ({email, password}) => {
         const { createUser } = this.context;
-        const { switchPage } =this.props;
 
         this.setState({
             registerBusy: true,
         });
 
         createUser(email, password)
-            .then(()=>{
-                switchPage();
-            })
             .catch(err => {
                 let msg = '';
                 switch (err.code) {
@@ -63,8 +59,6 @@ export default class RegisterPage extends React.Component {
     }
 
     renderForm = () => {
-
-        const { switchPage } = this.props;
 
         const { registerBusy } = this.state;
 
@@ -125,9 +119,9 @@ export default class RegisterPage extends React.Component {
                             Зарегистрироваться
                         </Button>
 
-                        <Button type="link" onClick={switchPage}>
+                        <Link to='/login'>
                             Войти
-                        </Button>
+                        </Link>
                     </Space>
                 </Form.Item>
             </Form>

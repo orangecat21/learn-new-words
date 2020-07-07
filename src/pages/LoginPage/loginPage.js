@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 import { Layout, Form, Input, Button, Space  } from 'antd';
@@ -9,7 +10,7 @@ import FirebaseContext from '../../context/firebaseContext';
 const { Content } = Layout;
 
 
-export default class LoginPage extends React.Component {
+class LoginPage extends React.Component {
 
     state={
         loginBusy: false,
@@ -18,6 +19,7 @@ export default class LoginPage extends React.Component {
 
     onFinish = ({email, password}) => {
         const { signWithEmail } = this.context;
+        
 
         this.setState({
             loginBusy: true,
@@ -65,8 +67,6 @@ export default class LoginPage extends React.Component {
     renderForm = () => {
 
         const { loginBusy } = this.state;
-
-        const { switchPage } = this.props;
 
         const layout = {
             labelCol: {
@@ -125,9 +125,9 @@ export default class LoginPage extends React.Component {
                             Войти
                         </Button>
 
-                        <Button type="link" onClick={switchPage}>
+                        <Link to='/registry'>
                             Зарегистрироваться
-                        </Button>
+                        </Link>
                     </Space>
                 </Form.Item>
             </Form>
@@ -155,5 +155,7 @@ export default class LoginPage extends React.Component {
 
 
 }
+
+export default LoginPage;
 
 LoginPage.contextType = FirebaseContext;

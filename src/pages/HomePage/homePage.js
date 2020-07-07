@@ -25,8 +25,8 @@ export default class HomePage extends React.Component {
     }
 
     componentDidMount() {
-        const { database, userCardsUrl } = this.context;
-        database.ref(userCardsUrl).on('value', res => {
+        const { userCards } = this.context;
+        userCards().on('value', res => {
             this.setState({
                 wordArr: Object.values(res.val() || {}),
                 isLoading: false,
@@ -40,17 +40,17 @@ export default class HomePage extends React.Component {
     }
 
     handlerDeleteCard = (id) => {
-        const { database, userCardsUrl } = this.context;
-        database.ref(userCardsUrl+id).remove();
+        const { userCurrentCard } = this.context;
+        userCurrentCard(id).remove();
     }
 
     handlerAddCard = (rus, eng) => {
         if (typeof rus === "undefined") {
             return false;
         } else {
-            const { database, userCardsUrl } = this.context;
+            const { userCurrentCard } = this.context;
             const newId = +new Date();
-            database.ref(userCardsUrl+newId).set({
+            userCurrentCard(newId).set({
                 rus: rus.toLowerCase(),
                 eng: eng.toLowerCase(),
                 id: newId,
