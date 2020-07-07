@@ -8,43 +8,52 @@ const { Search } = Input;
 export default class addCardForm extends React.Component {
 
     state = {
-        eng: '',
+        inputValue: '',
         isBusy: false,
     }
 
     handlerChange = (e) => {
         this.setState({
-            eng:e.target.value
+            inputValue:e.target.value,
         })
     }
 
+    isRussian = (word) => /[а-я]/i.test(word);
+
     getWord = async () => {
-        const { eng } = this.state;
-        const translate = await getTranslateWord(eng)
-        this.props.onFormSubmit( translate, eng);
+        const { inputValue } = this.state;
+        const { onFormSubmit } = this.props
+
+        if(this.isRussian(inputValue)) {
+            const eng = await getTranslateWord(inputValue, 'ru-en');
+            onFormSubmit(inputValue, eng);
+        } else {
+            const rus = await getTranslateWord(inputValue, 'en-ru');
+            onFormSubmit(rus, inputValue);
+        }
         this.setState({
-            eng:'',
+            inputValue:'',
             isBusy: false,
         })
     }
 
     handlerSubmit = async () => {
-        this.state.eng !== '' && this.setState({
+        this.state.inputValue !== '' && this.setState({
             isBusy: true,
         }, this.getWord);
     }
 
     render () {
-        const { eng, isBusy } = this.state;
+        const { inputValue, isBusy } = this.state;
         return (
             <div className={className.form}>
                 <Search
-                    placeholder="Введите английское слово"
+                    placeholder="Введите слово"
                     enterButton="Добавить карточку"
                     size="large"
                     onSearch={this.handlerSubmit}
                     onChange={this.handlerChange}
-                    value={eng}
+                    value={inputValue}
                     loading={isBusy}
                 />
             </div>
