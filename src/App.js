@@ -1,5 +1,10 @@
 import React from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux'
+import { addUserAction } from './actions/userAction';
+
 import PrivateRoute from './utils/privateRoute';
 
 import FirebaseContext from './context/firebaseContext';
@@ -14,37 +19,29 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 class App extends React.Component {
 
-  state = {
-    user: null
-  }
-
   componentDidMount() {
     const { auth, setUserCardsUrl } = this.context;
-    const { history } = this.props;
+    const { history, addUser } = this.props;
     auth.onAuthStateChanged(user => {
       if (user) {
         localStorage.setItem('user', JSON.stringify(user));
         setUserCardsUrl(user.uid);
         history.push('/');
-        this.setState({
-          user,
-        });
+        addUser(user)
       } else {
         localStorage.removeItem('user');
         setUserCardsUrl(null);
         history.push('/login');
-        this.setState({
-          user: false,
-        });
+        addUser({})
       }
     })
   }
 
   render() {
 
-    const { user } = this.state;
+    const { user } = this.props.user;
     
-    if (user === null) {
+    if (!user) {
       return (
         <div className={className['spinner-wrap']}>
           <LoadingOutlined />
@@ -66,7 +63,16 @@ class App extends React.Component {
     );
   }
 }
-
-export default withRouter(App);
-
 App.contextType = FirebaseContext;
+
+const mapStateToProps = (state) => {
+  return state
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    addUser: addUserAction,
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));
