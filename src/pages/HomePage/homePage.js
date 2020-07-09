@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { fetchCard, removeCardList } from '../../actions/cardAction';
+
 import FirebaseContext from '../../context/firebaseContext';
 
 import HeaderBlock from '../../components/headerBlock/headerBlock';
@@ -18,24 +22,20 @@ import className from './homePage.module.css';
 
 
 
-export default class HomePage extends React.Component {
-    state = {
-        wordArr: [],
-        isLoading: true
-    }
+class HomePage extends React.Component {
 
     componentDidMount() {
         const { userCards } = this.context;
-        userCards().on('value', res => {
-            this.setState({
-                wordArr: Object.values(res.val() || {}),
-                isLoading: false,
-            });
-        });
+
+        const { fetchCard } = this.props;
+
+        fetchCard(userCards);
     }
 
     handlerSignOut = () => {
         const { signOut } = this.context;
+        const { removeCardList } = this.props;
+        removeCardList();
         signOut().catch(err => console.error(err));
     }
 
@@ -59,7 +59,7 @@ export default class HomePage extends React.Component {
     }
 
     render() {
-        const { wordArr, isLoading } = this.state;
+        const { cardList, isLoading } = this.props;
 
         return (
             <>
@@ -78,11 +78,11 @@ export default class HomePage extends React.Component {
                     <Paragraph text="Воспользуйтесь карточками для запоминания и пополнения словарного запаса. Кликните&nbsp;на&nbsp;неизвестное слово и узнаете перевод!" />
                     { isLoading && <LoadingOutlined className={className.loader}/>}
                     {
-                     (!isLoading && wordArr.length === 0) ?
+                     (!isLoading && cardList.length === 0) ?
                      
                      <Paragraph text="Кажется у вас пока нет ни одной карточки!"/> : 
                      
-                     wordArr.map(({ eng, rus, id }) => (
+                     cardList.map(({ eng, rus, id }) => (
                             <Card
                                 onDeleted={this.handlerDeleteCard}
                                 key={id}
@@ -106,3 +106,19 @@ export default class HomePage extends React.Component {
 }
 
 HomePage.contextType = FirebaseContext;
+
+const mapStateToProps = (state) => {
+    return {
+        cardList: state.cardList.items,
+        isLoading: state.cardList.isLoading
+    };
+}
+
+const mapActionToProps = (dispatch) => {
+    return bindActionCreators({
+        fetchCard: fetchCard,
+        removeCardList
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapActionToProps)(HomePage);
