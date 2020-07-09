@@ -31,6 +31,7 @@ class App extends React.Component {
         });
       } else {
         localStorage.removeItem('user');
+        setUserCardsUrl(null);
         history.push('/login');
         this.setState({
           user: false,
