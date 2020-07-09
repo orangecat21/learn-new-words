@@ -17,6 +17,10 @@ class Firebase {
         this.userCardsUrl = `/cards/${uid}/`;
     }
 
+    userCards = () => this.database.ref(this.userCardsUrl);
+
+    userCurrentCard = (id) => this.database.ref(this.userCardsUrl+id); 
+
     signWithEmail = (email, password) => this.auth.signInWithEmailAndPassword(email, password);
 
     signOut = () => this.auth.signOut();
