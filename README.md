@@ -1,5 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Docker
+
+Docker app image available. <br/>
+Link on repo: [learn-the-words](https://hub.docker.com/r/orangecat21/learn-the-words)<br/>
+
+Docker Pull Command:
+### `docker pull orangecat21/learn-the-words`
+
 ## Available Scripts
 
 In the project directory, you can run:
